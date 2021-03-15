@@ -91,7 +91,7 @@ namespace CustomMath
 
         public static Vec3 operator -(Vec3 leftV3, Vec3 rightV3)
         {
-            throw new NotImplementedException();
+            return new Vec3(leftV3.x - rightV3.x, leftV3.y - rightV3.y, leftV3.z - rightV3.z);
         }
 
         public static Vec3 operator -(Vec3 v3)
@@ -101,15 +101,15 @@ namespace CustomMath
 
         public static Vec3 operator *(Vec3 v3, float scalar)
         {
-            throw new NotImplementedException();
+            return new Vec3(v3.x * scalar, v3.y * scalar, v3.z * scalar);
         }
         public static Vec3 operator *(float scalar, Vec3 v3)
         {
-            throw new NotImplementedException();
+            return new Vec3(v3.x * scalar, v3.y * scalar, v3.z * scalar);
         }
         public static Vec3 operator /(Vec3 v3, float scalar)
         {
-            throw new NotImplementedException();
+            return new Vec3(v3.x / scalar, v3.y / scalar, v3.z / scalar);
         }
 
         public static implicit operator Vector3(Vec3 v3)
@@ -119,7 +119,7 @@ namespace CustomMath
 
         public static implicit operator Vector2(Vec3 v2)
         {
-            throw new NotImplementedException();
+            return new Vector3(v2.x, v2.y, 0);
         }
         #endregion
 
@@ -142,7 +142,10 @@ namespace CustomMath
         }
         public static Vec3 Cross(Vec3 a, Vec3 b)
         {
-            throw new NotImplementedException();
+            return new Vector3(
+                ((a.y * b.z) - (a.z * b.y)),
+                ((a.x * b.z) - (a.z * b.x)),
+                ((a.x * b.y) - (a.y * b.x)));
         }
         public static float Distance(Vec3 a, Vec3 b)
         {
@@ -150,7 +153,7 @@ namespace CustomMath
         }
         public static float Dot(Vec3 a, Vec3 b)
         {
-            throw new NotImplementedException();
+            return new float((a.x * b.x) + (a.y * b.y) + (a.z * b.z));
         }
         public static Vec3 Lerp(Vec3 a, Vec3 b, float t)
         {
