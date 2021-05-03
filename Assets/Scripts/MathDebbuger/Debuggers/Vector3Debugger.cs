@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using MathDebbuger.Internals;
 
 namespace MathDebbuger
 {
@@ -9,16 +8,18 @@ namespace MathDebbuger
     {
         private static Camera renderCamera;
         private static Dictionary<string, CameraInternals.CameraDebugger> debuggers;
+        private static bool showedInEditor = false;
+        private static bool showedCoordinates = false;
         private static bool InitDebugger()
         {
-            renderCamera = Object.FindObjectOfType<Camera>();
+            renderCamera = UnityEngine.Object.FindObjectOfType<Camera>();
             if (renderCamera)
             {
                 debuggers = new Dictionary<string, CameraInternals.CameraDebugger>();
                 renderCamera.gameObject.AddComponent<CameraInternals.VectorHandles>();
                 return true;
             }
-            Debug.LogError("Init Failed: The Vector3Debugger needs a Camera in scene to works");
+            Debug.LogError("Init Failed: The VectorDebugger needs a Camera in scene to works");
             return false;
         }
         private static bool CheckInited()
@@ -55,6 +56,10 @@ namespace MathDebbuger
             positions.Add(Vector3.zero);
             positions.Add(destinationPosition);
             cameraDebugger.Init(positions);
+            if (showedInEditor)
+                cameraDebugger.EnableShowInEditor();
+            if (showedCoordinates)
+                cameraDebugger.EnableShowCoordinates();
             debuggers.Add(identifier, cameraDebugger);
         }
         public static void AddVector(Vector3 originPosition, Vector3 destinationPosition, string identifier)
@@ -67,6 +72,10 @@ namespace MathDebbuger
             positions.Add(originPosition);
             positions.Add(destinationPosition);
             cameraDebugger.Init(positions);
+            if (showedInEditor)
+                cameraDebugger.EnableShowInEditor();
+            if (showedCoordinates)
+                cameraDebugger.EnableShowCoordinates();
             debuggers.Add(identifier, cameraDebugger);
         }
         public static void AddVector(Vector3 destinationPosition, Color vectorColor, string identifier)
@@ -79,6 +88,10 @@ namespace MathDebbuger
             positions.Add(Vector3.zero);
             positions.Add(destinationPosition);
             cameraDebugger.Init(positions, vectorColor);
+            if (showedInEditor)
+                cameraDebugger.EnableShowInEditor();
+            if (showedCoordinates)
+                cameraDebugger.EnableShowCoordinates();
             debuggers.Add(identifier, cameraDebugger);
         }
         public static void AddVector(Vector3 originPosition, Vector3 destinationPosition, Color vectorColor, string identifier)
@@ -91,6 +104,10 @@ namespace MathDebbuger
             positions.Add(originPosition);
             positions.Add(destinationPosition);
             cameraDebugger.Init(positions, vectorColor);
+            if (showedInEditor)
+                cameraDebugger.EnableShowInEditor();
+            if (showedCoordinates)
+                cameraDebugger.EnableShowCoordinates();
             debuggers.Add(identifier, cameraDebugger);
         }
         public static void AddVectorsSecuence(List<Vector3> positions, bool useTheFirstVertexAsZero, string identifier)
@@ -102,6 +119,10 @@ namespace MathDebbuger
             if (!useTheFirstVertexAsZero)
                 positions.Insert(0, Vector3.zero);
             cameraDebugger.Init(positions);
+            if (showedInEditor)
+                cameraDebugger.EnableShowInEditor();
+            if (showedCoordinates)
+                cameraDebugger.EnableShowCoordinates();
             debuggers.Add(identifier, cameraDebugger);
         }
         public static void AddVectorsSecuence(List<Vector3> positions, bool useTheFirstVertexAsZero, Color vectorColor, string identifier)
@@ -113,6 +134,10 @@ namespace MathDebbuger
             if (!useTheFirstVertexAsZero)
                 positions.Insert(0, Vector3.zero);
             cameraDebugger.Init(positions, vectorColor);
+            if (showedInEditor)
+                cameraDebugger.EnableShowInEditor();
+            if (showedCoordinates)
+                cameraDebugger.EnableShowCoordinates();
             debuggers.Add(identifier, cameraDebugger);
         }
         public static void UpdatePosition(string identifier, Vector3 newDestinationPosition)
@@ -145,27 +170,58 @@ namespace MathDebbuger
         }
         public static void EnableEditorView()
         {
+            if (!CheckInited())
+                return;
             foreach (KeyValuePair<string, CameraInternals.CameraDebugger> debugger in debuggers)
             {
                 debugger.Value.EnableShowInEditor();
             }
+            showedInEditor = true;
         }
         public static void DisableEditorView()
         {
+            if (!CheckInited())
+                return;
             foreach (KeyValuePair<string, CameraInternals.CameraDebugger> debugger in debuggers)
             {
                 debugger.Value.DisableShowInEditor();
             }
+            showedInEditor = false;
+
+        }
+        public static void EnableCoordinates()
+        {
+            if (!CheckInited())
+                return;
+            foreach (KeyValuePair<string, CameraInternals.CameraDebugger> debugger in debuggers)
+            {
+                debugger.Value.EnableShowCoordinates();
+            }
+            showedCoordinates = true;
+        }
+        public static void DisableCoordinates()
+        {
+            if (!CheckInited())
+                return;
+            foreach (KeyValuePair<string, CameraInternals.CameraDebugger> debugger in debuggers)
+            {
+                debugger.Value.DisableShowCoordinates();
+            }
+            showedCoordinates = false;
         }
         public static void SetVectorArrow(VectorArrow arrow)
         {
+            if (!CheckInited())
+                return;
             foreach (KeyValuePair<string, CameraInternals.CameraDebugger> debugger in debuggers)
             {
                 debugger.Value.SetVectorArrow(arrow);
             }
         }
-        public static void SetFontSize(int size) 
+        public static void SetFontSize(int size)
         {
+            if (!CheckInited())
+                return;
             foreach (KeyValuePair<string, CameraInternals.CameraDebugger> debugger in debuggers)
             {
                 debugger.Value.SetFontSize(size);
@@ -180,6 +236,16 @@ namespace MathDebbuger
         {
             if (ExistKey(identifier))
                 debuggers[identifier].DisableShowInEditor();
+        }
+        public static void EnableCoordinates(string identifier)
+        {
+            if (ExistKey(identifier))
+                debuggers[identifier].EnableShowCoordinates();
+        }
+        public static void DisableCoordinates(string identifier)
+        {
+            if (ExistKey(identifier))
+                debuggers[identifier].DisableShowCoordinates();
         }
         public static void SetVectorArrow(VectorArrow arrow, string identifier)
         {
@@ -208,6 +274,13 @@ namespace MathDebbuger
         {
             if (ExistKey(identifier))
                 debuggers[identifier].enabled = true;
+        }
+
+        public static List<Vector3> GetVectorsPositions(string identifier)
+        {
+            if (ExistKey(identifier))
+                return debuggers[identifier].GetPositions();
+            return new List<Vector3>();
         }
     }
 }

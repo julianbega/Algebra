@@ -12,7 +12,7 @@ namespace CustomMath
         public float z;
 
         public float sqrMagnitude { get { return (x * x + y * y + z * z); } }
-        public Vector3 normalized { get { return new Vec3(x / magnitude, y / magnitude, z / magnitude); } }
+        public Vec3 normalized { get { return new Vec3(x / magnitude, y / magnitude, z / magnitude); } }
         public float magnitude { get { return Mathf.Sqrt(x * x + y * y + z * z);  } }
         #endregion
 
@@ -138,7 +138,8 @@ namespace CustomMath
         public static Vec3 ClampMagnitude(Vec3 vector, float maxLength)
         {
             if (Magnitude(vector) > maxLength)
-                return vector.normalized * maxLength;
+                return vector.normalized * maxLength;           
+
             else
                 return vector;
         }
@@ -160,11 +161,21 @@ namespace CustomMath
         }
         public static Vec3 Lerp(Vec3 a, Vec3 b, float t)
         {
-            throw new NotImplementedException();
+            Vec3 newVec = Vec3.One;
+            if (t < 1)
+            {
+                newVec = new Vec3(((b - a) * t + a));
+            }
+            else
+            {
+                t = 1.0f;
+                newVec = new Vec3(((b - a) * t + a));
+            }
+            return newVec;
         }
         public static Vec3 LerpUnclamped(Vec3 a, Vec3 b, float t)
         {
-            throw new NotImplementedException();
+            return a + new Vec3((b - a) * t);
         }
         public static Vec3 Max(Vec3 a, Vec3 b)
         {
@@ -194,11 +205,12 @@ namespace CustomMath
         }
         public static Vec3 Project(Vec3 vector, Vec3 onNormal) 
         {
-            throw new NotImplementedException();
+            return (Vec3.Dot(vector, onNormal) / Vec3.Dot(vector, vector)) * vector;
         }
         public static Vec3 Reflect(Vec3 inDirection, Vec3 inNormal) 
         {
-            throw new NotImplementedException();
+            Vec3 normal = new Vec3(inNormal.normalized);
+            return inDirection - 2 * (Vec3.Dot(inDirection, normal)) * normal;
         }
         public void Set(float newX, float newY, float newZ)
         {
