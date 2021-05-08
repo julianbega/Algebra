@@ -11,13 +11,15 @@ public class EjerVector3 : MonoBehaviour
         Uno, Dos,Tres,Cuatro,Cinco,Seis,Siete,Ocho,Nueve,Diez
     }
     [SerializeField] Ejer EjerActual;
-    [SerializeField] Vec3 vectorA;
-    [SerializeField] Vec3 vectorB;
+    public Vector3 vector3A;
+    public Vector3 vector3B;
 
     float timer = 0;
     Vec3 vectorC;
     void Start()
     {
+        Vec3 vectorA = new Vec3 (vector3A);
+        Vec3 vectorB = new Vec3(vector3B);
         timer = 0;
         
         Vector3Debugger.AddVector(vectorA, "A");
@@ -32,7 +34,8 @@ public class EjerVector3 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+        Vec3 vectorA = new Vec3(vector3A);
+        Vec3 vectorB = new Vec3(vector3B);
         switch (EjerActual)
         {
             case Ejer.Uno:
