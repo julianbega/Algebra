@@ -11,9 +11,26 @@ namespace CustomMath
         public float y;
         public float z;
 
-        public float sqrMagnitude { get { return (x * x + y * y + z * z); } }
-        public Vec3 normalized { get { return new Vec3(x / magnitude, y / magnitude, z / magnitude); } }
-        public float magnitude { get { return Mathf.Sqrt(x * x + y * y + z * z);  } }
+        public float sqrMagnitude 
+        { 
+            get 
+            { 
+                return (x * x + y * y + z * z); 
+            } 
+        }
+        public Vec3 normalized { 
+            get 
+            { 
+                return new Vec3(x / magnitude, y / magnitude, z / magnitude); 
+            } 
+        }
+        public float magnitude
+        { 
+            get
+            { 
+                return Mathf.Sqrt(sqrMagnitude);  
+            } 
+        }
         #endregion
 
         #region constants
@@ -96,7 +113,7 @@ namespace CustomMath
 
         public static Vec3 operator -(Vec3 v3)
         {
-            return new Vec3(-v3.x, -v3.y, -v3.z);
+            return new Vec3(Zero - v3);
         }
 
         public static Vec3 operator *(Vec3 v3, float scalar)
@@ -145,14 +162,14 @@ namespace CustomMath
         }
         public static float Magnitude(Vec3 vector)
         {
-            return (float)Math.Sqrt((vector.x * vector.x) + (vector.y * vector.y) + (vector.z * vector.z));
+            return vector.magnitude;
         }
         public static Vec3 Cross(Vec3 a, Vec3 b)
         {
             return new Vec3((a.y * b.z) - (b.y * a.z), (a.z * b.x) - (b.z * a.x), (a.x * b.y) - (b.x * a.y));
         }
         public static float Distance(Vec3 a, Vec3 b)
-        {
+        {            
             return (float)Math.Sqrt(((b.x - a.x) * (b.x - a.x)) + ((b.y - a.y) * (b.x - a.x)) + ((b.z - a.z) * (b.x - a.x)));
         }
         public static float Dot(Vec3 a, Vec3 b)
@@ -179,25 +196,25 @@ namespace CustomMath
         }
         public static Vec3 Max(Vec3 a, Vec3 b)
         {
-            float newX = a.x;
-            float newY = a.y;
-            float newZ = a.z;
-            if (newX < b.x) newX = b.x;
-            if (newY < b.y) newY = b.y;
-            if (newZ < b.z) newZ = b.z;
+            float maxX = a.x;
+            float maxY = a.y;
+            float maxZ = a.z;
+            if (maxX < b.x) maxX = b.x;
+            if (maxY < b.y) maxY = b.y;
+            if (maxZ < b.z) maxZ = b.z;
 
-            return new Vec3(newX, newY, newZ);
+            return new Vec3(maxX, maxY, maxZ);
         }
         public static Vec3 Min(Vec3 a, Vec3 b)
         {
-            float newX = a.x;
-            float newY = a.y;
-            float newZ = a.z;
-            if (newX > b.x) newX = b.x;
-            if (newY > b.y) newY = b.y;
-            if (newZ > b.z) newZ = b.z;
+            float minX = a.x;
+            float minY = a.y;
+            float minZ = a.z;
+            if (minX > b.x) minX = b.x;
+            if (minY > b.y) minY = b.y;
+            if (minZ > b.z) minZ = b.z;
 
-            return new Vec3(newX, newY, newZ);
+            return new Vec3(minX, minY, minZ);
         }
         public static float SqrMagnitude(Vec3 vector)
         {
@@ -206,11 +223,15 @@ namespace CustomMath
         public static Vec3 Project(Vec3 vector, Vec3 onNormal) 
         {
             return (Vec3.Dot(vector, onNormal) / Vec3.Dot(vector, vector)) * vector;
+
+
+
+           // return (Dot(onNormal, vector) / Dot(onNormal, onNormal)) * onNormal;
         }
         public static Vec3 Reflect(Vec3 inDirection, Vec3 inNormal) 
         {
-            Vec3 normal = new Vec3(inNormal.normalized);
-            return inDirection - 2 * (Vec3.Dot(inDirection, normal)) * normal;
+            inNormal.Normalize();
+            return inDirection - 2 * (-Dot(inDirection, inNormal)) * inNormal;
         }
         public void Set(float newX, float newY, float newZ)
         {
