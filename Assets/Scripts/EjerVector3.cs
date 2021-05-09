@@ -25,8 +25,8 @@ public class EjerVector3 : MonoBehaviour
         Vector3Debugger.AddVector(vectorA, "A");
         Vector3Debugger.AddVector(vectorB, "B");
         Vector3Debugger.AddVector(vectorC, "C");
-        Vector3Debugger.UpdateColor("A", Color.white);
-        Vector3Debugger.UpdateColor("B", Color.white);
+        Vector3Debugger.UpdateColor("A", Color.red);
+        Vector3Debugger.UpdateColor("B", Color.blue);
         Vector3Debugger.EnableCoordinates();
         Vector3Debugger.EnableEditorView();
     }
