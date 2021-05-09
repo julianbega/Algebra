@@ -52,15 +52,14 @@ namespace CustomMath
         }
         public float GetDistanceToPoint(Vec3 point)
         {
-            return Vec3.Dot(normal, point) + distance ;
+            return Vec3.Dot(normal, point) + distance;
         }
         public bool GetSide(Vec3 point)
         {
             float tempDistance = GetDistanceToPoint(point);
 
-            return (tempDistance > 0);            
+            return (tempDistance > 0);                     
         }
-        
         public bool SameSide(Vec3 inPt0, Vec3 inPt1)
         {
 
