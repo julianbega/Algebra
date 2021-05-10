@@ -234,7 +234,7 @@ public class FrustumCooler : MonoBehaviour
         planoBack = new Plane(FrustumPoint3.transform.position, FrustumPoint1.transform.position);
         planoLeft = new Plane(FrustumPoint3.transform.position, FrustumPoint4.transform.position, FrustumPointBase.transform.position);
         planoRight = new Plane(FrustumPoint1.transform.position, FrustumPoint2.transform.position, FrustumPointBase.transform.position);
-        planoFront = new Plane(FrustumBase3.transform.position, FrustumBase1.transform.position);
+        planoFront = new Plane(FrustumBase3.transform.position, FrustumBase1.transform.position, FrustumBase4.transform.position);
         planoTop.Flip();
         planoFront.Flip();
         planoBottom.Flip();
