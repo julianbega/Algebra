@@ -40,11 +40,9 @@ public class EjerVector3 : MonoBehaviour
         {
             case Ejer.Uno:
                 vectorC = vectorA + vectorB;
-                Debug.Log("vectorC: X" + vectorC.x + "|Y:" + vectorC.y + "|Z:" + vectorC.z);
                 break;
             case Ejer.Dos:
-                vectorC =  vectorB- vectorA;
-                Debug.Log("vectorC: X" + vectorC.x + "|Y:" + vectorC.y + "|Z:" + vectorC.z);
+                vectorC =  vectorB- vectorA;        
                 break;
             case Ejer.Tres:
                 vectorC = new Vec3((vectorB.x * vectorA.x),(vectorB.y * vectorA.y) , (vectorB.z * vectorA.z));

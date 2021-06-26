@@ -12,6 +12,7 @@ namespace CustomMath
     {
         public Plano(Vec3 inNormal, Vec3 inPoint)
         {
+            // como lo que se usa en el reflect, un punto que es el plano y una normal que es perpendicular al plano
             normal = inNormal.normalized;
             distance = Mathf.Abs(Vec3.Dot(normal, inPoint)) / Vector3.Magnitude(normal);
 
@@ -43,6 +44,7 @@ namespace CustomMath
         }
         public Vec3 ClosestPointOnPlane(Vec3 point)
         { 
+            // el plano es algo así como una pared infinita que divide el espacio, el closest point busca cual es el punto más cercano de todo ese plano infinito al punto deseado
             return (point - normal * GetDistanceToPoint(point)); 
         }
         public void Flip()
@@ -62,13 +64,11 @@ namespace CustomMath
         }
         public bool SameSide(Vec3 inPt0, Vec3 inPt1)
         {
-
             if (GetSide(inPt0) == true && GetSide(inPt1) == true)
             {
                 return true;
             }
-            else return false;
-            
+            else return false;            
         }
         public void Set3Points(Vec3 a, Vec3 b, Vec3 c)
         {

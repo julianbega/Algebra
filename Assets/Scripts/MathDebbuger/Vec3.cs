@@ -147,6 +147,7 @@ namespace CustomMath
         }
         public static float Angle(Vec3 from, Vec3 to)
         {
+            // la formula es cos del angulo = a (from * to)/ (magnitud de from * magnitud de to), por lo que angulo = arcos de [(from * to)/ (magnitud de from * magnitud de to)]
             float result = (from.x * to.x) + (from.y * to.y) + (from.z * to.z);
             float a = Mathf.Sqrt(from.x + from.y + from.z);
             float b = Mathf.Sqrt(to.x + to.y + to.z);
@@ -156,7 +157,6 @@ namespace CustomMath
         {
             if (Magnitude(vector) > maxLength)
                 return vector.normalized * maxLength;           
-
             else
                 return vector;
         }
@@ -166,18 +166,22 @@ namespace CustomMath
         }
         public static Vec3 Cross(Vec3 a, Vec3 b)
         {
+            // Devuelve un vector en el medio entre a y b
             return new Vec3((a.y * b.z) - (b.y * a.z), (a.z * b.x) - (b.z * a.x), (a.x * b.y) - (b.x * a.y));
         }
         public static float Distance(Vec3 a, Vec3 b)
-        {            
+        {    
+            // f
             return (float)Math.Sqrt(((b.x - a.x) * (b.x - a.x)) + ((b.y - a.y) * (b.x - a.x)) + ((b.z - a.z) * (b.x - a.x)));
         }
         public static float Dot(Vec3 a, Vec3 b)
         {
-            return(a.x * b.x) + (a.y * b.y) + (a.z * b.z);
+            //For normalized vectors Dot returns 1 if they point in exactly the same direction, -1 if they point in completely opposite directions and zero if the vectors are perpendicular.
+            // podes saber el tipo de angulo entre 2 vectors
+            return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
         }
         public static Vec3 Lerp(Vec3 a, Vec3 b, float t)
-        {
+        {       
             Vec3 newVec = Vec3.One;
             if (t < 1)
             {
@@ -222,10 +226,14 @@ namespace CustomMath
         }
         public static Vec3 Project(Vec3 vector, Vec3 onNormal) 
         {
+            // la normal es para donde apunta el plano y el vecor que da la direccion a nuestro vector resultado
+            // vector es el que determina el resultado de la projection (vector resultado), ya que es la normal escalada para que su "punta" sea el punto más cercano a la "punta" del vector 
             return (Vec3.Dot(vector, onNormal) / Vec3.Dot(vector, vector)) * vector;
         }
         public static Vec3 Reflect(Vec3 inDirection, Vec3 inNormal) 
         {
+            // la normal es para donde apunta el plano, un vector perpendicular a la superficie, 
+            // inDirection es un vector que se dirije al plano, la funcion devuelve un vector con la misma magnitud paro como si hubiese rebotado en el plano
             inNormal.Normalize();
             return inDirection - 2 * (-Dot(inDirection, inNormal)) * inNormal;
         }
