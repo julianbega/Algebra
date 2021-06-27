@@ -125,14 +125,7 @@ namespace CustomMath
             z = newZ;
             w = newW;
         }
-        //
-        // Resumen:
-        //     Creates a rotation which rotates from fromDirection to toDirection.
-        //
-        // Parámetros:
-        //   fromDirection:
-        //
-        //   toDirection:
+      
         public void SetFromToRotation(Vec3 fromDirection, Vec3 toDirection)
         {
             Quaterniones q = FromToRotation(fromDirection, toDirection);
@@ -142,16 +135,7 @@ namespace CustomMath
             w = q.w;
 
         }
-        //
-        // Resumen:
-        //     Creates a rotation with the specified forward and upwards directions.
-        //
-        // Parámetros:
-        //   view:
-        //     The direction to look in.
-        //
-        //   up:
-        //     The vector that defines in which direction up is.
+       
         public void SetLookRotation(Vec3 view, [DefaultValue("Vector3.up")] Vec3 up)
         {
             Quaterniones q = LookRotation(view, up);
@@ -160,16 +144,7 @@ namespace CustomMath
             z = q.z;
             w = q.w;
         }
-        //
-        // Resumen:
-        //     Creates a rotation with the specified forward and upwards directions.
-        //
-        // Parámetros:
-        //   view:
-        //     The direction to look in.
-        //
-        //   up:
-        //     The vector that defines in which direction up is.
+
         public void SetLookRotation(Vec3 view)
         {
             Quaterniones q = LookRotation(view);
@@ -182,13 +157,7 @@ namespace CustomMath
         {
             throw new NotImplementedException();
         }
-        //   format:
-        //
-        // Resumen:
-        //     Returns a nicely formatted string of the Quaternion.
-        //
-        // Parámetros:
-        //   format:
+  
         public override string ToString()
         {
             return ("X = " + x + ", Y = " + y + ", Z = " + z + ", W = " + w);
@@ -203,14 +172,7 @@ namespace CustomMath
             float angle = Mathf.Acos(result.w) * 2.0f * Mathf.Rad2Deg;
             return angle;
         }
-        //
-        // Resumen:
-        //     Creates a rotation which rotates angle degrees around axis.
-        //
-        // Parámetros:
-        //   angle:
-        //
-        //   axis:
+        
         public static Quaterniones AngleAxis(float angle, Vector3 axis)
         {
             angle *= Mathf.Deg2Rad * 0.5f;
@@ -222,25 +184,12 @@ namespace CustomMath
             newQ.w = Mathf.Cos(angle);
             return newQ.normalize;
         }
-        //
-        // Resumen:
-        //     The dot product between two rotations.
-        //
-        // Parámetros:
-        //   a:
-        //
-        //   b:
+    
         public static float Dot(Quaterniones a, Quaterniones b)
         {
             return ((a.x * b.x) + (a.y * b.y) + (a.z * b.z) + (a.w * b.w));
         }
-        //
-        // Resumen:
-        //     Returns a rotation that rotates z degrees around the z axis, x degrees around
-        //     the x axis, and y degrees around the y axis.
-        //
-        // Parámetros:
-        //   euler:
+      
         public static Quaterniones Euler(Vec3 euler)
         {
             Quaterniones qX = identity;
@@ -261,17 +210,6 @@ namespace CustomMath
 
             return new Quaterniones(qX * qY * qZ);
         }
-        //
-        // Resumen:
-        //     Returns a rotation that rotates z degrees around the z axis, x degrees around
-        //     the x axis, and y degrees around the y axis.
-        //
-        // Parámetros:
-        //   x:
-        //
-        //   y:
-        //
-        //   z:
         public static Quaterniones Euler(float x, float y, float z)
         {
             return Euler(new Vec3(x, y, z));
@@ -287,29 +225,19 @@ namespace CustomMath
             q.Normalize();
             return q;
         }
-        //
-        // Resumen:
-        //     Returns the Inverse of rotation.
-        //
-        // Parámetros:
-        //   rotation:
+       
+       
         public static Quaterniones Inverse(Quaterniones rotation)
         {
             return new Quaterniones(-rotation.x, -rotation.y, -rotation.z, rotation.w);
         }
-        //
-        // Resumen:
-        //     Interpolates between a and b by t and normalizes the result afterwards. The parameter
-        //     t is clamped to the range [0, 1].
+      
         public static Quaterniones Lerp(Quaterniones a, Quaterniones b, float t)
         {
             t = Mathf.Clamp(t, 0, 1);
             return LerpUnclamped(a, b, t);
         }
-        //
-        // Resumen:
-        //     Interpolates between a and b by t and normalizes the result afterwards. The parameter
-        //     t is not clamped.        
+             
         public static Quaterniones LerpUnclamped(Quaterniones a, Quaterniones b, float t)
         {
             Quaterniones difference = new Quaterniones(b.x - a.x, b.y - a.y, b.z - a.z, b.w - b.w);
@@ -317,72 +245,73 @@ namespace CustomMath
 
             return new Quaterniones(a.x + differenceLerped.x, a.y + differenceLerped.y, a.z + differenceLerped.z, a.w + differenceLerped.w).normalize;
         }
-        //
-        // Resumen:
-        //     Creates a rotation with the specified forward and upwards directions.
-        //
-        // Parámetros:
-        //   forward:
-        //     The direction to look in.
-        //
-        //   upwards:
-        //     The vector that defines in which direction up is.
+      
         public static Quaterniones LookRotation(Vec3 forward)
         {
             return LookRotation(forward, Vec3.Up);
         }
-        //
-        // Resumen:
-        //     Creates a rotation with the specified forward and upwards directions.
-        //
-        // Parámetros:
-        //   forward:
-        //     The direction to look in.
-        //
-        //   upwards:
-        //     The vector that defines in which direction up is.
-        public static Quaterniones LookRotation(Vector3 forward, [DefaultValue("Vector3.up")] Vec3 upwards)
+        public static Quaterniones LookRotation(Vec3 forward, Vec3 upwards)
         {
-            throw new NotImplementedException();
+            Quaterniones result;
+            if (forward == Vec3.Zero)
+            {
+                result = Quaterniones.identity;
+                return result;
+            }
+            if (upwards != forward)
+            {
+                upwards.Normalize();
+                Vec3 a = forward + upwards * -Vec3.Dot(forward, upwards);                   // No funciona
+                Quaterniones q = Quaterniones.FromToRotation(Vec3.Forward, a);
+                return Quaterniones.FromToRotation(a, forward) * q;
+            }
+            else
+            {
+                return Quaterniones.FromToRotation(Vec3.Forward, forward);
+            }
         }
-        //
-        // Resumen:
-        //     Converts this quaternion to one with the same orientation but with a magnitude
-        //     of 1.
-        //
-        // Parámetros:
-        //   q:
+
         public static Quaterniones Normalize(Quaterniones q)
         {
             return new Quaterniones(q.normalize);
         }
-        //
-        // Resumen:
-        //     Rotates a rotation from towards to.
-        //
-        // Parámetros:
-        //   from:
-        //
-        //   to:
-        //
-        //   maxDegreesDelta:
-        public static Quaterniones RotateTowards(Quaterniones from, Quaterniones to, float maxDegreesDelta)
-        {
-            throw new NotImplementedException();
-        }
-        //
-        // Resumen:
-        //     Spherically interpolates between a and b by t. The parameter t is clamped to
-        //     the range [0, 1].
 
+       
         public static Quaterniones Slerp(Quaterniones a, Quaterniones b, float t)
         {
-            t = Mathf.Clamp(t, 0, 1);
-            return SlerpUnclamped(a, b, t);
+            t = Mathf.Clamp(t, 0, 1); 
+            float num1;
+            float num2;
+            Quaterniones quaternion;
+            float dot = (((a.x * b.x) + (a.y * b.y)) + (a.z * b.z)) + (a.w * b.w);
+            bool neg = false;
+            if (dot < 0f)
+            {
+                neg = true;
+                dot = -dot;
+            }
+            if (dot >= 1.0f)
+            {
+                num1 = 1.0f - t;
+                if (neg) num2 = -t;
+                else num2 = t;
+            }
+            else
+            {
+                float num3 = (float)Math.Acos(dot);
+                float num4 = (float)(1.0 / Math.Sin(num3));
+                num1 = ((float)Math.Sin(((1f - t) * num3))) * num4;
+                if (neg)
+                    num2 = (((float)-Math.Sin((t * num3))) * num4);
+                else
+                    num2 = (((float)Math.Sin((t * num3))) * num4);
+            }
+            quaternion.x = ((num1 * a.x) + (num2 * b.x));
+            quaternion.y = ((num1 * a.y) + (num2 * b.y));
+            quaternion.z = ((num1 * a.z) + (num2 * b.z));
+            quaternion.w = ((num1 * a.w) + (num2 * b.w));
+            return quaternion;
         }
-        //
-        // Resumen:
-        //     Spherically interpolates between a and b by t. The parameter t is not clamped.
         public static Quaterniones SlerpUnclamped(Quaterniones a, Quaterniones b, float t)
         {
             float num1;
@@ -425,18 +354,28 @@ namespace CustomMath
             z = normalQ.z;
             w = normalQ.w;
         }
-        //
-        // Resumen:
-        //     Set x, y, z and w components of an existing Quaternion.
-
 
 
         ///Operators
         public static Vec3 operator *(Quaterniones rotation, Vec3 point)
         {
-            Quaterniones qPoint = Euler(point);
-            qPoint *= rotation;
-            return qPoint.eulerAngles;
+            float num = rotation.x * 2f;
+            float num2 = rotation.y * 2f;
+            float num3 = rotation.z * 2f;
+            float num4 = rotation.x * num;
+            float num5 = rotation.y * num2;
+            float num6 = rotation.z * num3;
+            float num7 = rotation.x * num2;
+            float num8 = rotation.x * num3;
+            float num9 = rotation.y * num3;
+            float num10 = rotation.w * num;
+            float num11 = rotation.w * num2;
+            float num12 = rotation.w * num3;
+            Vec3 result;
+            result.x = (1f - (num5 + num6)) * point.x + (num7 - num12) * point.y + (num8 + num11) * point.z;
+            result.y = (num7 + num12) * point.x + (1f - (num4 + num6)) * point.y + (num9 - num10) * point.z;
+            result.z = (num8 - num11) * point.x + (num9 + num10) * point.y + (1f - (num4 + num5)) * point.z;
+            return result;
         }
         public static Quaterniones operator *(Quaterniones a, Quaterniones b)
         {
