@@ -1,7 +1,4 @@
-﻿using CustomMath;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 
 
@@ -63,10 +60,7 @@ namespace CustomMath
                     new Vector4(0f, 0f, 0f, 0f)
                     );
             }
-        }
-        //
-        // Resumen:
-        //     Returns the identity matrix (Read Only).
+        }       
         public static M4X4 identity
         {
             get
@@ -140,12 +134,6 @@ namespace CustomMath
 
             return mRot;
         }
-        //
-        // Resumen:
-        //     Creates a scaling matrix.
-        //
-        // Parámetros:
-        //   vector:
         public static M4X4 Scale(Vec3 vector)
         {
             M4X4 mScale = zero;
@@ -157,12 +145,6 @@ namespace CustomMath
 
             return mScale;
         }
-        //
-        // Resumen:
-        //     Creates a translation matrix.
-        //
-        // Parámetros:
-        //   vector:
         public static M4X4 Translate(Vec3 vector)
         {
             M4X4 mTrans = identity;
@@ -438,10 +420,6 @@ namespace CustomMath
                     break;
             }
 
-        }
-
-        
-
-
+        }     
     }
 }
