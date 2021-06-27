@@ -399,9 +399,5 @@ namespace CustomMath
             return new Quaternion(q.x, q.y, q.z, q.w);
         }
 
-        //public static implicit operator Quarentenion(Quaternion q)
-        //{
-        //    return new Quarentenion(q.x, q.y, q.z, q.w);
-        //}
     }
 }
