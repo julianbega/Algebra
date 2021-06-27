@@ -315,7 +315,7 @@ namespace CustomMath
             Quaterniones difference = new Quaterniones(b.x - a.x, b.y - a.y, b.z - a.z, b.w - b.w);
             Quaterniones differenceLerped = new Quaterniones(difference.x * t, difference.y * t, difference.z * t, difference.w * t);
 
-            return new Quaterniones(a.x + differenceLerped.x, a.y + differenceLerped.y, a.z + differenceLerped.z, a.w + differenceLerped.w).normalized;
+            return new Quaterniones(a.x + differenceLerped.x, a.y + differenceLerped.y, a.z + differenceLerped.z, a.w + differenceLerped.w).normalize;
         }
         //
         // Resumen:

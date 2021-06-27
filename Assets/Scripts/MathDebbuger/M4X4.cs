@@ -88,52 +88,36 @@ namespace CustomMath
                 {
                     case 0: 
                         return m00;
-                        break;
                     case 1:
                         return m01;
-                        break;
                     case 2:
                         return m02;
-                        break;
                     case 3:
                         return m03;
-                        break;
                     case 4:
                         return m10;
-                        break;
                     case 5:
                         return m11;
-                        break;
                     case 6:
                         return m12;
-                        break;
                     case 7:
                         return m13;
-                        break;
                     case 8:
                         return m20;
-                        break;
                     case 9:
                         return m21;
-                        break;
                     case 10:
                         return m22;
-                        break;
                     case 11:
                         return m23;
-                        break;
                     case 12:
                         return m30;
-                        break;
                     case 13:
                         return m31;
-                        break;
                     case 14:
                         return m32;
-                        break;
                     case 15:
                         return m33;
-                        break;
                     default:
                         break;
                 }
@@ -357,11 +341,15 @@ namespace CustomMath
             }
             else 
             {
-                this.m00 = GetRow(0).x / GetRow( 0).x;
-                this.m01 = GetRow(0).y / GetRow( 0).x;
-                this.m02 = GetRow(0).z / GetRow( 0).x;
-                this.m03 = GetRow(0).w / GetRow( 0).x;
-
+                M4X4 resultado = M4X4.identity;
+                this.m00 = this.m00 / this.m00;
+                this.m01 = this.m01 / this.m00;
+                this.m02 = this.m02 / this.m00;
+                this.m03 = this.m03 / this.m00;
+                resultado.m00 = resultado.m00 / this.m00;
+                resultado.m01 = resultado.m01 / this.m00;
+                resultado.m02 = resultado.m02 / this.m00;
+                resultado.m03 = resultado.m03 / this.m00;
 
             }
 
