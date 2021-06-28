@@ -6,13 +6,16 @@ namespace CustomMath
 {
     public struct Quaterniones
     {
+        //https://eater.net/quaternions
+        //https://www.youtube.com/playlist?list=PLP1RASvNhZXikttHjjER8Pp7pP33wQUJC (algunos)
+
         public const float kEpsilon = 1E-06F;
         public float x;
         public float y;
         public float z;
         public float w;
 
-        //Constructors
+        //Constructors   ez
         public Quaterniones(float x, float y, float z, float w)
         {
             this.x = x;
@@ -35,7 +38,10 @@ namespace CustomMath
             w = q.w;
         }
 
-        //Static Properties        
+
+
+
+        //Static Properties        ez 
             public static Quaterniones identity
         {
             get
@@ -44,7 +50,7 @@ namespace CustomMath
             }
         }
 
-        //Properties  
+        //Properties    ez
         public float this[int index]
         {
             get
@@ -60,7 +66,7 @@ namespace CustomMath
                     case 3:
                         return w;
                     default:
-                        throw new IndexOutOfRangeException("Fuera de rango de Quarentenions! (0-3)");
+                        throw new IndexOutOfRangeException("Fuera de rango (0-3)");
                 }
             }
             set
@@ -80,11 +86,11 @@ namespace CustomMath
                         w = value;
                         break;
                     default:
-                        throw new IndexOutOfRangeException("Fuera de rango de Quarentenions! (0-3)");
+                        throw new IndexOutOfRangeException("Fuera de rango (0-3)");
                 }
             }
         }
-        public Vec3 eulerAngles
+       /*Chequear Euler*/ public Vec3 eulerAngles
         {
             get
             {
@@ -152,12 +158,7 @@ namespace CustomMath
             y = q.y;
             z = q.z;
             w = q.w;
-        }
-        public void ToAngleAxis(out float angle, out Vec3 axis)
-        {
-            throw new NotImplementedException();
-        }
-  
+        }  
         public override string ToString()
         {
             return ("X = " + x + ", Y = " + y + ", Z = " + z + ", W = " + w);
@@ -171,6 +172,7 @@ namespace CustomMath
 
             float angle = Mathf.Acos(result.w) * 2.0f * Mathf.Rad2Deg;
             return angle;
+            // primer video de la serie de brackeys
         }
         
         public static Quaterniones AngleAxis(float angle, Vector3 axis)
@@ -183,12 +185,14 @@ namespace CustomMath
             newQ.z = axis.z * Mathf.Sin(angle);
             newQ.w = Mathf.Cos(angle);
             return newQ.normalize;
+            /// https://www.youtube.com/watch?v=B58A1qkEkik&ab_channel=huse360
         }
-    
+
         public static float Dot(Quaterniones a, Quaterniones b)
         {
             return ((a.x * b.x) + (a.y * b.y) + (a.z * b.z) + (a.w * b.w));
         }
+
       
         public static Quaterniones Euler(Vec3 euler)
         {
@@ -209,11 +213,14 @@ namespace CustomMath
             qZ.Set(0.0f, 0.0f, sin, cos);
 
             return new Quaterniones(qX * qY * qZ);
+            /// https://www.youtube.com/watch?v=B58A1qkEkik&ab_channel=huse360
         }
         public static Quaterniones Euler(float x, float y, float z)
         {
             return Euler(new Vec3(x, y, z));
         }
+
+
         public static Quaterniones FromToRotation(Vec3 fromDirection, Vec3 toDirection)
         {
             Vec3 cross = Vec3.Cross(fromDirection, toDirection);
@@ -224,6 +231,10 @@ namespace CustomMath
             q.w = fromDirection.magnitude * toDirection.magnitude + Vec3.Dot(fromDirection, toDirection);
             q.Normalize();
             return q;
+
+           // https://www.youtube.com/watch?v=jTgdKoQv738&ab_channel=PenguinMaths
+           // Creates a rotation which rotates from fromDirection to toDirection.
+           //Usually you use this to rotate a transform so that one of its axes eg.the y-axis - follows a target direction toDirection in world space.
         }
        
        
@@ -234,7 +245,7 @@ namespace CustomMath
       
         public static Quaterniones Lerp(Quaterniones a, Quaterniones b, float t)
         {
-            t = Mathf.Clamp(t, 0, 1);
+            t = Mathf.Clamp(t, 0, 1);  // reduce el float a 1 en caso de ser necesario para que el lerp sea fluido
             return LerpUnclamped(a, b, t);
         }
              
@@ -245,7 +256,8 @@ namespace CustomMath
 
             return new Quaterniones(a.x + differenceLerped.x, a.y + differenceLerped.y, a.z + differenceLerped.z, a.w + differenceLerped.w).normalize;
         }
-      
+        //Interpolates between a and b by t and normalizes the result afterwards.
+
         public static Quaterniones LookRotation(Vec3 forward)
         {
             return LookRotation(forward, Vec3.Up);
@@ -253,21 +265,17 @@ namespace CustomMath
         public static Quaterniones LookRotation(Vec3 forward, Vec3 upwards)
         {
             Quaterniones result;
-            if (forward == Vec3.Zero)
+            if (forward == Vec3.Zero || upwards == Vec3.Zero || (forward.normalized == upwards.normalized) )
             {
                 result = Quaterniones.identity;
                 return result;
             }
-            if (upwards != forward)
-            {
-                upwards.Normalize();
-                Vec3 a = forward + upwards * -Vec3.Dot(forward, upwards);                   // No funciona
-                Quaterniones q = Quaterniones.FromToRotation(Vec3.Forward, a);
-                return Quaterniones.FromToRotation(a, forward) * q;
-            }
             else
             {
-                return Quaterniones.FromToRotation(Vec3.Forward, forward);
+                upwards.Normalize();
+                Vec3 a = forward + upwards -Vec3.Cross(forward, upwards);
+                Quaterniones q = Quaterniones.FromToRotation(Vec3.Forward, a);
+                return Quaterniones.FromToRotation(a, forward) * q;
             }
         }
 
