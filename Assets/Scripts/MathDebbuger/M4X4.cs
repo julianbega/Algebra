@@ -1,6 +1,9 @@
 ﻿
 using UnityEngine;
 
+/// <summary>
+///  operador implicito para debugger
+/// </summary>
 
 namespace CustomMath
 {

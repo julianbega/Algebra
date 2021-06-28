@@ -20,6 +20,7 @@ public class EjerQuaternions : MonoBehaviour
     {
         vectors1 = new Vec3(9, 0, 0);
         Vector3Debugger.AddVector(vectors1, Color.red, "vector1");
+
         vectors2.Add(new Vec3(10, 0, 0));
         vectors2.Add(new Vec3(10, 10, 0));
         vectors2.Add(new Vec3(20, 10, 0));
@@ -42,7 +43,7 @@ public class EjerQuaternions : MonoBehaviour
 
                 Vector3Debugger.DisableEditorView("vectors2");
                 Vector3Debugger.DisableEditorView("vectors3");
-
+ 
                 Vector3Debugger.EnableEditorView("vector1");
                 Vector3Debugger.UpdatePosition("vector1", vectors1);
                 break;

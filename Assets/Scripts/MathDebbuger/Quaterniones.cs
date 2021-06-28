@@ -6,6 +6,9 @@ namespace CustomMath
 {
     public struct Quaterniones
     {
+        /// pasar todo a ingles
+        ///  https://github.com/NickCuso/Tutorials/blob/master/Quaternions.md
+
         //https://eater.net/quaternions
         //https://www.youtube.com/playlist?list=PLP1RASvNhZXikttHjjER8Pp7pP33wQUJC (algunos)
 
@@ -99,7 +102,7 @@ namespace CustomMath
                 qAsVec3.x = Mathf.Rad2Deg * Mathf.Asin(x * 2);
                 qAsVec3.y = Mathf.Rad2Deg * Mathf.Asin(y * 2);
                 qAsVec3.z = Mathf.Rad2Deg * Mathf.Asin(z * 2);
-
+                /// falta W
 
                 return qAsVec3;
             }
@@ -172,7 +175,6 @@ namespace CustomMath
 
             float angle = Mathf.Acos(result.w) * 2.0f * Mathf.Rad2Deg;
             return angle;
-            // primer video de la serie de brackeys
         }
         
         public static Quaterniones AngleAxis(float angle, Vector3 axis)
@@ -287,6 +289,7 @@ namespace CustomMath
        
         public static Quaterniones Slerp(Quaterniones a, Quaterniones b, float t)
         {
+            /// reciclar
             t = Mathf.Clamp(t, 0, 1); 
             float num1;
             float num2;
@@ -384,6 +387,7 @@ namespace CustomMath
             result.y = (num7 + num12) * point.x + (1f - (num4 + num6)) * point.y + (num9 - num10) * point.z;
             result.z = (num8 - num11) * point.x + (num9 + num10) * point.y + (1f - (num4 + num5)) * point.z;
             return result;
+
         }
         public static Quaterniones operator *(Quaterniones a, Quaterniones b)
         {
@@ -392,6 +396,8 @@ namespace CustomMath
             float z = (a.w * b.z) + (a.x * b.y) - (a.y * b.x) + (a.z * b.w);
             float w = (a.w * b.w) - (a.x * b.x) - (a.y * b.y) - (a.z * b.z);
             return new Quaterniones(x, y, z, w);
+
+            //https://www.youtube.com/watch?v=91YU5BV5s30&ab_channel=SamuelChung
         }
         public static bool operator ==(Quaterniones lhs, Quaterniones rhs)
         {

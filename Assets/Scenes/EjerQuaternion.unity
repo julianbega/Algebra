@@ -325,7 +325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04a4fa920e77ccb4289ab1d97788d747, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EjerActual: 0
+  EjerActual: 2
   angle: 1
 --- !u!4 &2051469364
 Transform:
