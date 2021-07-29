@@ -90,11 +90,14 @@ namespace CustomMath
         #region Operators
         public static bool operator ==(Vec3 left, Vec3 right)
         {
-            float diff_x = left.x - right.x;
-            float diff_y = left.y - right.y;
-            float diff_z = left.z - right.z;
-            float sqrmag = diff_x * diff_x + diff_y * diff_y + diff_z * diff_z;
-            return sqrmag < epsilon * epsilon;
+            if(left.x == right.x && left.y == right.y && left.z == right.z )
+            {
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
         }
         public static bool operator !=(Vec3 left, Vec3 right)
         {
@@ -166,18 +169,20 @@ namespace CustomMath
         }
         public static Vec3 Cross(Vec3 a, Vec3 b)
         {
-            // Devuelve un vector en el medio entre a y b
+        // Devuelve un vector en el medio entre a y b
+        // https://docs.unity3d.com/ScriptReference/Vector3.Cross.html
             return new Vec3((a.y * b.z) - (b.y * a.z), (a.z * b.x) - (b.z * a.x), (a.x * b.y) - (b.x * a.y));
         }
         public static float Distance(Vec3 a, Vec3 b)
-        {    
-            // f
-            return (float)Math.Sqrt(((b.x - a.x) * (b.x - a.x)) + ((b.y - a.y) * (b.x - a.x)) + ((b.z - a.z) * (b.x - a.x)));
+        {
+        // https://www.varsitytutors.com/calculus_3-help/distance-between-vectors
+            return (float)Math.Sqrt(((b.x - a.x) * (b.x - a.x)) + ((b.y - a.y) * (b.y - a.y)) + ((b.z - a.z) * (b.z - a.z)));
         }
         public static float Dot(Vec3 a, Vec3 b)
         {
             //For normalized vectors Dot returns 1 if they point in exactly the same direction, -1 if they point in completely opposite directions and zero if the vectors are perpendicular.
-            // podes saber el tipo de angulo entre 2 vectors
+            //podes saber el tipo de angulo entre 2 vectors
+            //https://byjus.com/maths/dot-product-of-two-vectors/
             return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
         }
         public static Vec3 Lerp(Vec3 a, Vec3 b, float t)
@@ -224,12 +229,15 @@ namespace CustomMath
         {
             return vector.sqrMagnitude;
         }
-        public static Vec3 Project(Vec3 vector, Vec3 onNormal) 
+        public static Vec3 Project(Vec3 vector, Vec3 onNormal)
         {
             // la normal es para donde apunta el plano y el vecor que da la direccion a nuestro vector resultado
             // vector es el que determina el resultado de la projection (vector resultado), ya que es la normal escalada para que su "punta" sea el punto más cercano a la "punta" del vector 
-            return (Vec3.Dot(vector, onNormal) / Vec3.Dot(vector, vector)) * vector;
+            return (Dot(vector, onNormal) / Mathf.Pow(Magnitude(onNormal), 2) * onNormal);
         }
+        /*{
+           return (Vec3.Dot(vector, onNormal) /((Magnitude(onNormal)* Magnitude(onNormal)) * onNormal));
+        }*/
         public static Vec3 Reflect(Vec3 inDirection, Vec3 inNormal) 
         {
             // la normal es para donde apunta el plano, un vector perpendicular a la superficie, 
