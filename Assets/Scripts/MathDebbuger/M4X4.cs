@@ -269,18 +269,25 @@ namespace CustomMath
 
         public void Transpose()
         {
+            float aux;
+            aux = m10;
             m10 = m01;
-            m01 = m10;
+            m01 = aux;
+            aux = m20;
             m20 = m02;
-            m02 = m20;
+            m02 = aux;
+            aux = m21;
             m21 = m12;
-            m12 = m21;
+            m12 = aux;
+            aux = m30;
             m30 = m03;
-            m03 = m30;
+            m03 = aux;
+            aux = m31;
             m31 = m13;
-            m13 = m31;
+            m13 = aux;
+            aux = m32;
             m32 = m23;
-            m23 = m32;
+            m23 = aux;
 
             /* 
               matriz original =            Matriz transpuesta =               
