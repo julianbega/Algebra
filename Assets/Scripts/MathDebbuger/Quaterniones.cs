@@ -8,7 +8,6 @@ namespace CustomMath
     {
         /// pasar todo a ingles
         ///  https://github.com/NickCuso/Tutorials/blob/master/Quaternions.md
-
         //https://eater.net/quaternions
         //https://www.youtube.com/playlist?list=PLP1RASvNhZXikttHjjER8Pp7pP33wQUJC (algunos)
 
@@ -45,7 +44,7 @@ namespace CustomMath
 
 
         //Static Properties        ez 
-            public static Quaterniones identity
+       public static Quaterniones identity
         {
             get
             {
@@ -93,16 +92,14 @@ namespace CustomMath
                 }
             }
         }
-       /*Chequear Euler*/ public Vec3 eulerAngles
+       public Vec3 eulerAngles
         {
             get
             {
-                Vec3 qAsVec3;
-
-                qAsVec3.x = Mathf.Rad2Deg * Mathf.Asin(x * 2);
-                qAsVec3.y = Mathf.Rad2Deg * Mathf.Asin(y * 2);
-                qAsVec3.z = Mathf.Rad2Deg * Mathf.Asin(z * 2);
-                /// falta W
+                Vec3 qAsVec3 = Vec3.Zero;
+                qAsVec3.x = Mathf.Rad2Deg * Mathf.Atan2(2 * x * w - 2 * y * z, 1 - 2 * (x * x) - 2 * (z * z));
+                qAsVec3.y = Mathf.Rad2Deg * Mathf.Atan2((2 * y * w) - (2 * x * z), 1 - (2 * (y * y)) - 2 * (z * z));
+                qAsVec3.z = Mathf.Rad2Deg * Mathf.Asin(2 * x * y + 2 * z * w);
 
                 return qAsVec3;
             }
@@ -250,7 +247,7 @@ namespace CustomMath
             t = Mathf.Clamp(t, 0, 1);  // reduce el float a 1 en caso de ser necesario para que el lerp sea fluido
             return LerpUnclamped(a, b, t);
         }
-             
+
         public static Quaterniones LerpUnclamped(Quaterniones a, Quaterniones b, float t)
         {
             Quaterniones difference = new Quaterniones(b.x - a.x, b.y - a.y, b.z - a.z, b.w - b.w);
@@ -286,42 +283,11 @@ namespace CustomMath
             return new Quaterniones(q.normalize);
         }
 
-       
+
         public static Quaterniones Slerp(Quaterniones a, Quaterniones b, float t)
         {
-            /// reciclar
-            t = Mathf.Clamp(t, 0, 1); 
-            float num1;
-            float num2;
-            Quaterniones quaternion;
-            float dot = (((a.x * b.x) + (a.y * b.y)) + (a.z * b.z)) + (a.w * b.w);
-            bool neg = false;
-            if (dot < 0f)
-            {
-                neg = true;
-                dot = -dot;
-            }
-            if (dot >= 1.0f)
-            {
-                num1 = 1.0f - t;
-                if (neg) num2 = -t;
-                else num2 = t;
-            }
-            else
-            {
-                float num3 = (float)Math.Acos(dot);
-                float num4 = (float)(1.0 / Math.Sin(num3));
-                num1 = ((float)Math.Sin(((1f - t) * num3))) * num4;
-                if (neg)
-                    num2 = (((float)-Math.Sin((t * num3))) * num4);
-                else
-                    num2 = (((float)Math.Sin((t * num3))) * num4);
-            }
-            quaternion.x = ((num1 * a.x) + (num2 * b.x));
-            quaternion.y = ((num1 * a.y) + (num2 * b.y));
-            quaternion.z = ((num1 * a.z) + (num2 * b.z));
-            quaternion.w = ((num1 * a.w) + (num2 * b.w));
-            return quaternion;
+            t = Mathf.Clamp(t, 0, 1);
+            return SlerpUnclamped(a, b, t);
         }
         public static Quaterniones SlerpUnclamped(Quaterniones a, Quaterniones b, float t)
         {
