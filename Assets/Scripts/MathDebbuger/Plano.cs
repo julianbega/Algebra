@@ -10,6 +10,8 @@ namespace CustomMath
 {
     public struct Plano
     {
+        public Vec3 normal { get; set; }
+        public float distance { get; set; }
         public Plano(Vec3 inNormal, Vec3 inPoint)
         {
             // como lo que se usa en el reflect, un punto que es el plano y una normal que es perpendicular al plano
@@ -27,8 +29,7 @@ namespace CustomMath
 
             distance = -Vec3.Dot(normal, a) / Vector3.Magnitude(normal); ;
         }
-        public Vec3 normal { get; set; }
-        public float distance { get; set; }
+
         public Plano flipped
         {
             get
@@ -42,6 +43,7 @@ namespace CustomMath
             Vec3 aux = -(plano.normal * plano.distance + translation);
             return new Plano(plano.normal, aux);
         }
+       
         public Vec3 ClosestPointOnPlane(Vec3 point)
         { 
             // el plano es algo así como una pared infinita que divide el espacio, el closest point busca cual es el punto más cercano de todo ese plano infinito al punto deseado
@@ -84,12 +86,15 @@ namespace CustomMath
             normal = inNormal.normalized;
             distance = -Vec3.Dot(inNormal, inPoint);
         }
+        public void SetNormalAndPoint(Vec3 inNormal, Vec3 inPoint)
+        {
+            normal = inNormal;
+            distance = -Vec3.Dot(normal, inPoint);
+        }
         public override string ToString()
         { 
             return "(normal:(" + normal.x + ", " + normal.y + ", " + normal.z + "), distance:" + distance + ")";
         }
-      /*  public string ToString(string format)
-        { }*/
         public void Translate(Vec3 translation)
         {
             Vec3 aux = (normal * distance + translation);
