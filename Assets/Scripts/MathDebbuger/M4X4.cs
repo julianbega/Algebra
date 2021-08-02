@@ -1,9 +1,6 @@
 ﻿
 using UnityEngine;
 
-/// <summary>
-///  operador implicito para debugger
-/// </summary>
 
 namespace CustomMath
 {
@@ -124,6 +121,7 @@ namespace CustomMath
 
         public static M4X4 Rotate(Quaternion q)
         {
+       // https://learnopengl.com/Getting-started/Transformations
             M4X4 mRot = identity;
             mRot.m00 = 1 - 2.0f * (q.y * q.y) - 2.0f * (q.z * q.z);
             mRot.m01 = 2.0f * (q.x * q.y) - 2.0f * (q.z * q.w);
@@ -139,6 +137,7 @@ namespace CustomMath
         }
         public static M4X4 Scale(Vec3 vector)
         {
+        //https://learnopengl.com/Getting-started/Transformations
             M4X4 mScale = zero;
 
             mScale.m00 = vector.x;
@@ -150,6 +149,7 @@ namespace CustomMath
         }
         public static M4X4 Translate(Vec3 vector)
         {
+        //https://learnopengl.com/Getting-started/Transformations
             M4X4 mTrans = identity;
             mTrans.m03 = vector.x;
             mTrans.m13 = vector.y;
@@ -588,7 +588,6 @@ namespace CustomMath
                 resultado.m22 += aux[6];
                 resultado.m23 += aux[7];
                 #endregion
-
                 #region Hace que la matriz agarre los valores de la matriz resultado
                 this.m00 = resultado.m00;
                 this.m01 = resultado.m01;

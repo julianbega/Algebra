@@ -94,6 +94,8 @@ namespace CustomMath
         }
        public Vec3 eulerAngles
         {
+            // los angulos de rotacion del objeto en el mundo, 
+            //los angulos euler representan las rotaciones realizadas por separado en cada eje individual a diferencia de los cuaterniones
             get
             {
                 Vec3 qAsVec3 = Vec3.Zero;
@@ -167,6 +169,7 @@ namespace CustomMath
         // Static Methods
         public static float Angle(Quaterniones a, Quaterniones b)
         {
+            //devuelve un float que es la cantidad de grados que hay entre una rotacion del angulo a al b
             Quaterniones inv = Inverse(a);
             Quaterniones result = b * inv;
 
@@ -176,6 +179,8 @@ namespace CustomMath
         
         public static Quaterniones AngleAxis(float angle, Vector3 axis)
         {
+            /// https://www.youtube.com/watch?v=B58A1qkEkik&ab_channel=huse360
+            /// crea una rotacion que rota angle cantidad de grados en una direccion como puede ser el vector3.up .forward .right
             angle *= Mathf.Deg2Rad * 0.5f;
             axis.Normalize();
             Quaterniones newQ;
@@ -184,17 +189,19 @@ namespace CustomMath
             newQ.z = axis.z * Mathf.Sin(angle);
             newQ.w = Mathf.Cos(angle);
             return newQ.normalize;
-            /// https://www.youtube.com/watch?v=B58A1qkEkik&ab_channel=huse360
         }
 
         public static float Dot(Quaterniones a, Quaterniones b)
         {
+            // el producto punto de 2 rotaciones
             return ((a.x * b.x) + (a.y * b.y) + (a.z * b.z) + (a.w * b.w));
         }
 
       
         public static Quaterniones Euler(Vec3 euler)
         {
+            /// https://www.youtube.com/watch?v=B58A1qkEkik&ab_channel=huse360
+            /// le pasas un vector 3, rota z grados de ese vector en el eje z, x grados en el eje x e y en el eje y
             Quaterniones qX = identity;
             Quaterniones qY = identity;
             Quaterniones qZ = identity;
@@ -212,7 +219,7 @@ namespace CustomMath
             qZ.Set(0.0f, 0.0f, sin, cos);
 
             return new Quaterniones(qX * qY * qZ);
-            /// https://www.youtube.com/watch?v=B58A1qkEkik&ab_channel=huse360
+           
         }
         public static Quaterniones Euler(float x, float y, float z)
         {
@@ -244,25 +251,29 @@ namespace CustomMath
       
         public static Quaterniones Lerp(Quaterniones a, Quaterniones b, float t)
         {
+            //Interpolates between a and b by t and normalizes the result afterwards.
             t = Mathf.Clamp(t, 0, 1);  // reduce el float a 1 en caso de ser necesario para que el lerp sea fluido
             return LerpUnclamped(a, b, t);
         }
 
         public static Quaterniones LerpUnclamped(Quaterniones a, Quaterniones b, float t)
         {
+            // como lerp pero sin clumpear t
             Quaterniones difference = new Quaterniones(b.x - a.x, b.y - a.y, b.z - a.z, b.w - b.w);
             Quaterniones differenceLerped = new Quaterniones(difference.x * t, difference.y * t, difference.z * t, difference.w * t);
 
             return new Quaterniones(a.x + differenceLerped.x, a.y + differenceLerped.y, a.z + differenceLerped.z, a.w + differenceLerped.w).normalize;
         }
-        //Interpolates between a and b by t and normalizes the result afterwards.
+
 
         public static Quaterniones LookRotation(Vec3 forward)
         {
+            // rota el quaternion de manera tal que el forward sea una direccion especifica
             return LookRotation(forward, Vec3.Up);
         }
         public static Quaterniones LookRotation(Vec3 forward, Vec3 upwards)
         {
+            // rota el quaternion de manera tal que el forward y el up sean direcciones especificas
             Quaterniones result;
             if (forward == Vec3.Zero || upwards == Vec3.Zero || (forward.normalized == upwards.normalized) )
             {
@@ -286,11 +297,13 @@ namespace CustomMath
 
         public static Quaterniones Slerp(Quaterniones a, Quaterniones b, float t)
         {
+            // es como lerp pero la interpolacion es esferica
             t = Mathf.Clamp(t, 0, 1);
             return SlerpUnclamped(a, b, t);
         }
         public static Quaterniones SlerpUnclamped(Quaterniones a, Quaterniones b, float t)
         {
+            //es como el slerp pero si que se clumpee t 
             float num1;
             float num2;
             Quaterniones quaternion;
