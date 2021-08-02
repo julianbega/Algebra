@@ -56,6 +56,7 @@ namespace CustomMath
         }
         public float GetDistanceToPoint(Vec3 point)
         {
+            // devuelve la distancia que hay entre el punto y el plano
             return Vec3.Dot(normal, point) + distance;
         }
         public bool GetSide(Vec3 point)
