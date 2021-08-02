@@ -326,14 +326,19 @@ namespace CustomMath
 
         public void Inverse()
         {
+            // https://www.youtube.com/watch?v=Ut8TiGqO_eE&ab_channel=MatheteCursos
             float chequeo = Matrix4x4.Determinant(this);   /// si el determinante de la matriz es 0 no se puede invertir
 
             if (chequeo == 0)
             {
+                Debug.LogWarning("no es posible invertir esta matriz ya que  su determinante es 0");
             }
-            else 
+            else
             {
+                float[] aux;
+                aux = new float[8];
                 M4X4 resultado = M4X4.identity;
+                #region hace que m00 sea 1
                 this.m00 = this.m00 / this.m00;
                 this.m01 = this.m01 / this.m00;
                 this.m02 = this.m02 / this.m00;
@@ -342,7 +347,266 @@ namespace CustomMath
                 resultado.m01 = resultado.m01 / this.m00;
                 resultado.m02 = resultado.m02 / this.m00;
                 resultado.m03 = resultado.m03 / this.m00;
+                #endregion
+                #region Hace que toda la primer columna excepto m00 sean 0
+                aux[0] = this.m00 * (-this.m10);
+                aux[1] = this.m01 * (-this.m10);
+                aux[2] = this.m02 * (-this.m10);
+                aux[3] = this.m03 * (-this.m10);
+                aux[4] = resultado.m00 * (-this.m10);
+                aux[5] = resultado.m01 * (-this.m10);
+                aux[6] = resultado.m02 * (-this.m10);
+                aux[7] = resultado.m03 * (-this.m10);
+                this.m10 += aux[0];
+                this.m11 += aux[1];
+                this.m12 += aux[2];
+                this.m13 += aux[3];
+                resultado.m10 += aux[4];
+                resultado.m11 += aux[5];
+                resultado.m12 += aux[6];
+                resultado.m13 += aux[7];
 
+                aux[0] = this.m00 * (-this.m20);
+                aux[1] = this.m01 * (-this.m20);
+                aux[2] = this.m02 * (-this.m20);
+                aux[3] = this.m03 * (-this.m20);
+                aux[4] = resultado.m00 * (-this.m20);
+                aux[5] = resultado.m01 * (-this.m20);
+                aux[6] = resultado.m02 * (-this.m20);
+                aux[7] = resultado.m03 * (-this.m20);
+                this.m20 += aux[0];
+                this.m21 += aux[1];
+                this.m22 += aux[2];
+                this.m23 += aux[3];
+                resultado.m20 += aux[4];
+                resultado.m21 += aux[5];
+                resultado.m22 += aux[6];
+                resultado.m23 += aux[7];
+
+                aux[0] = this.m00 * (-this.m30);
+                aux[1] = this.m01 * (-this.m30);
+                aux[2] = this.m02 * (-this.m30);
+                aux[3] = this.m03 * (-this.m30);
+                aux[4] = resultado.m00 * (-this.m30);
+                aux[5] = resultado.m01 * (-this.m30);
+                aux[6] = resultado.m02 * (-this.m30);
+                aux[7] = resultado.m03 * (-this.m30);
+                this.m30 += aux[0];
+                this.m31 += aux[1];
+                this.m32 += aux[2];
+                this.m33 += aux[3];
+                resultado.m30 += aux[4];
+                resultado.m31 += aux[5];
+                resultado.m32 += aux[6];
+                resultado.m33 += aux[7];
+
+                #endregion
+                #region Hace que m11 sea 1                
+                this.m10 = this.m10 / this.m11;
+                this.m11 = this.m11 / this.m11;
+                this.m12 = this.m12 / this.m11;
+                this.m13 = this.m13 / this.m11;
+                resultado.m10 = resultado.m10 / this.m11;
+                resultado.m11 = resultado.m11 / this.m11;
+                resultado.m12 = resultado.m12 / this.m11;
+                resultado.m13 = resultado.m13 / this.m11;
+                #endregion
+                #region Hace que toda la segunda columna excepto m11 sea 0
+                aux[0] = this.m10 * (-this.m01);
+                aux[1] = this.m11 * (-this.m01);
+                aux[2] = this.m12 * (-this.m01);
+                aux[3] = this.m13 * (-this.m01);
+                aux[4] = resultado.m10 * (-this.m01);
+                aux[5] = resultado.m11 * (-this.m01);
+                aux[6] = resultado.m12 * (-this.m01);
+                aux[7] = resultado.m13 * (-this.m01);
+                this.m00 += aux[0];
+                this.m01 += aux[1];
+                this.m02 += aux[2];
+                this.m03 += aux[3];
+                resultado.m00 += aux[4];
+                resultado.m01 += aux[5];
+                resultado.m02 += aux[6];
+                resultado.m03 += aux[7];
+
+                aux[0] = this.m10 * (-this.m21);
+                aux[1] = this.m11 * (-this.m21);
+                aux[2] = this.m12 * (-this.m21);
+                aux[3] = this.m13 * (-this.m21);
+                aux[4] = resultado.m10 * (-this.m21);
+                aux[5] = resultado.m11 * (-this.m21);
+                aux[6] = resultado.m12 * (-this.m21);
+                aux[7] = resultado.m13 * (-this.m21);
+                this.m10 += aux[0];
+                this.m21 += aux[1];
+                this.m22 += aux[2];
+                this.m23 += aux[3];
+                resultado.m20 += aux[4];
+                resultado.m21 += aux[5];
+                resultado.m22 += aux[6];
+                resultado.m23 += aux[7];
+
+                aux[0] = this.m10 * (-this.m31);
+                aux[1] = this.m11 * (-this.m31);
+                aux[2] = this.m12 * (-this.m31);
+                aux[3] = this.m13 * (-this.m31);
+                aux[4] = resultado.m10 * (-this.m31);
+                aux[5] = resultado.m11 * (-this.m31);
+                aux[6] = resultado.m12 * (-this.m31);
+                aux[7] = resultado.m13 * (-this.m31);
+                this.m30 += aux[0];
+                this.m31 += aux[1];
+                this.m32 += aux[2];
+                this.m33 += aux[3];
+                resultado.m30 += aux[4];
+                resultado.m31 += aux[5];
+                resultado.m32 += aux[6];
+                resultado.m33 += aux[7];
+                #endregion
+                #region Hace que m22 sea 1
+                this.m20 = this.m20 / this.m22;
+                this.m21 = this.m21 / this.m22;
+                this.m22 = this.m22 / this.m22;
+                this.m23 = this.m23 / this.m22;
+                resultado.m20 = resultado.m20 / this.m22;
+                resultado.m21 = resultado.m21 / this.m22;
+                resultado.m22 = resultado.m22 / this.m22;
+                resultado.m23 = resultado.m23 / this.m22;
+                #endregion
+                #region Hace que toda la tercer columna excepto m22 sea 0
+                aux[0] = this.m20 * (-this.m02);
+                aux[1] = this.m21 * (-this.m02);
+                aux[2] = this.m22 * (-this.m02);
+                aux[3] = this.m23 * (-this.m02);
+                aux[4] = resultado.m20 * (-this.m02);
+                aux[5] = resultado.m21 * (-this.m02);
+                aux[6] = resultado.m22 * (-this.m02);
+                aux[7] = resultado.m23 * (-this.m02);
+                this.m00 += aux[0];
+                this.m01 += aux[1];
+                this.m02 += aux[2];
+                this.m03 += aux[3];
+                resultado.m00 += aux[4];
+                resultado.m01 += aux[5];
+                resultado.m02 += aux[6];
+                resultado.m03 += aux[7];
+
+                aux[0] = this.m20 * (-this.m12);
+                aux[1] = this.m21 * (-this.m12);
+                aux[2] = this.m22 * (-this.m12);
+                aux[3] = this.m23 * (-this.m12);
+                aux[4] = resultado.m20 * (-this.m12);
+                aux[5] = resultado.m21 * (-this.m12);
+                aux[6] = resultado.m22 * (-this.m12);
+                aux[7] = resultado.m23 * (-this.m12);
+                this.m10 += aux[0];
+                this.m11 += aux[1];
+                this.m12 += aux[2];
+                this.m13 += aux[3];
+                resultado.m10 += aux[4];
+                resultado.m11 += aux[5];
+                resultado.m12 += aux[6];
+                resultado.m13 += aux[7];
+
+                aux[0] = this.m20 * (-this.m32);
+                aux[1] = this.m21 * (-this.m32);
+                aux[2] = this.m22 * (-this.m32);
+                aux[3] = this.m23 * (-this.m32);
+                aux[4] = resultado.m20 * (-this.m32);
+                aux[5] = resultado.m21 * (-this.m32);
+                aux[6] = resultado.m22 * (-this.m32);
+                aux[7] = resultado.m23 * (-this.m32);
+                this.m30 += aux[0];
+                this.m31 += aux[1];
+                this.m32 += aux[2];
+                this.m33 += aux[3];
+                resultado.m30 += aux[4];
+                resultado.m31 += aux[5];
+                resultado.m32 += aux[6];
+                resultado.m33 += aux[7];
+
+                #endregion
+                #region Hace que m33 sea 1
+                this.m30 = this.m30 / this.m33;
+                this.m31 = this.m31 / this.m33;
+                this.m32 = this.m32 / this.m33;
+                this.m33 = this.m33 / this.m33;
+                resultado.m30 = resultado.m30 / this.m33;
+                resultado.m31 = resultado.m31 / this.m33;
+                resultado.m32 = resultado.m32 / this.m33;
+                resultado.m33 = resultado.m33 / this.m33;
+                #endregion
+                #region Hace que toda la cuarta columna excepto m33 sea 0
+                aux[0] = this.m30 * (-this.m03);
+                aux[1] = this.m31 * (-this.m03);
+                aux[2] = this.m32 * (-this.m03);
+                aux[3] = this.m33 * (-this.m03);
+                aux[4] = resultado.m30 * (-this.m03);
+                aux[5] = resultado.m31 * (-this.m03);
+                aux[6] = resultado.m32 * (-this.m03);
+                aux[7] = resultado.m33 * (-this.m03);
+                this.m00 += aux[0];
+                this.m01 += aux[1];
+                this.m02 += aux[2];
+                this.m03 += aux[3];
+                resultado.m00 += aux[4];
+                resultado.m01 += aux[5];
+                resultado.m02 += aux[6];
+                resultado.m03 += aux[7];
+
+                aux[0] = this.m30 * (-this.m13);
+                aux[1] = this.m31 * (-this.m13);
+                aux[2] = this.m32 * (-this.m13);
+                aux[3] = this.m33 * (-this.m13);
+                aux[4] = resultado.m30 * (-this.m13);
+                aux[5] = resultado.m31 * (-this.m13);
+                aux[6] = resultado.m32 * (-this.m13);
+                aux[7] = resultado.m33 * (-this.m13);
+                this.m10 += aux[0];
+                this.m11 += aux[1];
+                this.m12 += aux[2];
+                this.m13 += aux[3];
+                resultado.m10 += aux[4];
+                resultado.m11 += aux[5];
+                resultado.m12 += aux[6];
+                resultado.m13 += aux[7];
+
+                aux[0] = this.m30 * (-this.m23);
+                aux[1] = this.m31 * (-this.m23);
+                aux[2] = this.m32 * (-this.m23);
+                aux[3] = this.m33 * (-this.m23);
+                aux[4] = resultado.m30 * (-this.m23);
+                aux[5] = resultado.m31 * (-this.m23);
+                aux[6] = resultado.m32 * (-this.m23);
+                aux[7] = resultado.m33 * (-this.m23);
+                this.m20 += aux[0];
+                this.m21 += aux[1];
+                this.m22 += aux[2];
+                this.m23 += aux[3];
+                resultado.m20 += aux[4];
+                resultado.m21 += aux[5];
+                resultado.m22 += aux[6];
+                resultado.m23 += aux[7];
+                #endregion
+
+                #region Hace que la matriz agarre los valores de la matriz resultado
+                this.m00 = resultado.m00;
+                this.m01 = resultado.m01;
+                this.m02 = resultado.m02;
+                this.m03 = resultado.m03;
+                this.m10 = resultado.m10;
+                this.m11 = resultado.m11;
+                this.m12 = resultado.m12;
+                this.m13 = resultado.m13;
+                this.m20 = resultado.m20;
+                this.m21 = resultado.m21;
+                this.m22 = resultado.m22;
+                this.m23 = resultado.m23;
+                this.m30 = resultado.m30;
+                this.m31 = resultado.m31;
+                this.m32 = resultado.m32;
+                this.m33 = resultado.m33;
+                #endregion
             }
 
             /* 

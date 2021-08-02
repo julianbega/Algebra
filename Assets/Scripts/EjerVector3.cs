@@ -31,7 +31,6 @@ public class EjerVector3 : MonoBehaviour
         Vector3Debugger.EnableEditorView();
     }
 
-    // Update is called once per frame
     void Update()
     {
         Vec3 vectorA = new Vec3(vector3A);
@@ -64,7 +63,8 @@ public class EjerVector3 : MonoBehaviour
                 vectorC = Vec3.Project(vectorA, vectorB);
                 break;
             case Ejer.Ocho:
-
+                Vec3 sumVecs = vectorA + vectorB;
+                vectorC = sumVecs.normalized * Vec3.Distance(vectorA, vectorB);
                 break;
             case Ejer.Nueve:
                 vectorC = Vec3.Reflect(vectorA, vectorB);
